@@ -47,6 +47,8 @@ class MathEvaluation:
 
     @staticmethod
     def factorial(operand):
+        if operand < 0:
+            raise ValueError("can not be factorized")
         if operand == 0:
             return 1
         if float(operand).is_integer():
