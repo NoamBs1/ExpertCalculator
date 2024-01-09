@@ -47,6 +47,8 @@ class MathEvaluation:
 
     @staticmethod
     def factorial(operand):
+        if operand < 0:
+            raise ValueError("can not be factorized")
         if operand == 0:
             return 1
         if float(operand).is_integer():
@@ -59,3 +61,9 @@ class MathEvaluation:
     @staticmethod
     def neg(operand):
         return -operand
+
+    @staticmethod
+    def sumNum(operand):
+        if operand < 0:
+            raise ValueError("can not do this on negative number")
+        return sum(float(char) for char in str(operand) if char != '.')
