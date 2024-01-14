@@ -60,9 +60,7 @@ class Algorithm:
         stack = []
 
         for token in expression:
-            if token == '':
-                raise ValueError("you used the - sign in a wrong way")
-            elif Algorithm.is_numeric(token):
+            if Algorithm.is_numeric(token):
                 postfix.append(token)
             elif token == '(':
                 stack.append(token)
@@ -105,6 +103,7 @@ class Algorithm:
 
         if expression == '':
             raise ValueError("you need to enter something")
+
         tokens = []
         current_token = ''
 
@@ -113,7 +112,7 @@ class Algorithm:
                 raise ValueError(f"Invalid character: {self.MINUS_UNARY}")
             elif char.isdigit() or (char == '.' and current_token and '.' not in current_token):
                 current_token += char
-            elif char == '(' and expression[i + 1] == ')':
+            elif char == '(' and i + 1 < len(expression) and expression[i + 1] == ')':
                 raise ValueError("can not get empty parentheses")
             elif ((char in self.operators or char in ['(', ')']) and
                   char not in self.UNARYS + ['-']):
@@ -153,14 +152,23 @@ class Algorithm:
         if current_token:
             tokens.append(current_token)
 
-        for i in range(len(tokens)):
+        print(tokens)
+        i = 0
+        while i < len(tokens):
             token = tokens[i]
             if token.count('-') > 1:
                 rep = token.count('-') * '-'
                 if token.count('-') % 2 == 0:
-                    tokens[i] = token.replace(rep, '')
+                    if token[-1].isdigit():
+                        tokens[i] = token.replace(rep, '')
+                    else:
+                        if i + 1 < len(expression) and tokens[i + 1] in self.PREFIX_UNARYS:
+                            raise ValueError("- not used well")
+                        tokens.remove(rep)
+                        i -= 1
                 else:
                     tokens[i] = token.replace(rep, '-')
+            i += 1
 
         for i in range(len(tokens)):
             token = tokens[i]
@@ -169,6 +177,10 @@ class Algorithm:
                 tokens[i + 1] = tokens[i + 1].replace('-', '')
             elif token == '-' and (tokens[i - 1] not in "0123456789)" and tokens[i - 1] not in self.POSTFIX_UNARYS):
                 tokens[i] = self.MINUS_UNARY
+
+        for i in range(len(tokens)):
+            if tokens[i] == self.MINUS_UNARY and i > 0 and tokens[i - 1] in self.operators:
+                raise ValueError("the unary minus not used correctly")
 
         print(tokens)
         return tokens
