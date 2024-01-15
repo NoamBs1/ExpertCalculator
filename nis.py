@@ -18,7 +18,8 @@ class Algorithm:
         self.PREFIX_UNARYS = [op for op in self.operators if self.operators[op].getPosition() == -1]
         self.MINUS_UNARY = 'N'
         self.operators[self.MINUS_UNARY] = Operator('N', 7, MathEvaluation.neg, False, PRE)
-        self.PRE_MINUS_UNARY = ['^', '!', '$', '@', '&', '%', '#']
+        self.PRE_MINUS_UNARY = [op for op in self.operators if
+                                self.operators[op].getKdimut() > 2 and op not in self.PREFIX_UNARYS]
 
     @staticmethod
     def is_numeric(token: str) -> bool:
@@ -152,7 +153,6 @@ class Algorithm:
         if current_token:
             tokens.append(current_token)
 
-        print(tokens)
         i = 0
         while i < len(tokens):
             token = tokens[i]
@@ -175,12 +175,19 @@ class Algorithm:
             if token.startswith('-') and Algorithm.is_numeric(token[1:]):
                 tokens.insert(i, self.MINUS_UNARY)
                 tokens[i + 1] = tokens[i + 1].replace('-', '')
-            elif token == '-' and (tokens[i - 1] not in "0123456789)" and tokens[i - 1] not in self.POSTFIX_UNARYS):
+            elif token == '-' and (
+                    tokens[i - 1] not in "0123456789)" and tokens[i - 1] not in self.POSTFIX_UNARYS or i == 0):
                 tokens[i] = self.MINUS_UNARY
 
         for i in range(len(tokens)):
-            if tokens[i] == self.MINUS_UNARY and i > 0 and tokens[i - 1] in self.operators:
+            if tokens[i] == self.MINUS_UNARY and i + 1 < len(tokens) and tokens[i + 1] in self.PREFIX_UNARYS:
                 raise ValueError("the unary minus not used correctly")
+            if tokens[i] == '(':
+                if i != 0 and tokens[i - 1].isdigit():
+                    raise ValueError("you used ( in wrong way")
+            if tokens[i] == ')':
+                if i != len(tokens) - 1 and tokens[i + 1].isdigit():
+                    raise ValueError("you used ) in wrong way")
 
         print(tokens)
         return tokens
