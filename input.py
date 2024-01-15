@@ -8,6 +8,8 @@ def getStr() -> str:
         UserInput = input("enter an algebraic expression: ")
         UserInput = UserInput.replace(' ', '').replace('\t', '')
     except EOFError:
-        raise EOFError("can not get EOF")
+        raise EOFError("goodbye!")
+    except KeyboardInterrupt:
+        raise KeyboardInterrupt("goodbye!")
     else:
         return UserInput
