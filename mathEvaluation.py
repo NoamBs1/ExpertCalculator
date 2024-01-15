@@ -53,10 +53,15 @@ class MathEvaluation:
         :return: operand1 to the power of operand2
         :raises: ArithmeticError if operand1 is negative and operand 2 is a fraction
         """
+        if operand1 == 0 and operand2 <= 0:
+            raise ArithmeticError("Math Error")
         if operand1 < 0 and -1 < operand2 < 1:
             raise ArithmeticError("Math Error")
         else:
-            return operand1 ** operand2
+            try:
+                return operand1 ** operand2
+            except OverflowError:
+                return float('inf')
 
     @staticmethod
     def mod(operand1: float, operand2: float) -> float:
