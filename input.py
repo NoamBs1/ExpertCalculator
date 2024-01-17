@@ -9,7 +9,5 @@ def getStr() -> str:
         UserInput = UserInput.replace(' ', '').replace('\t', '')
     except EOFError:
         raise EOFError("goodbye!")
-    except KeyboardInterrupt:
-        raise KeyboardInterrupt("goodbye!")
     else:
         return UserInput
