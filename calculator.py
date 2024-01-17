@@ -24,7 +24,7 @@ def ExpertCalculator():
         algo = Algorithm(OPERATORS)
         expression = getStr()
         value = algo.calculate_expression(expression)
-    except (ValueError, EOFError, ArithmeticError, KeyboardInterrupt) as err:
+    except (ValueError, EOFError, ArithmeticError, OverflowError) as err:
         print(err)
     else:
         print(value)
