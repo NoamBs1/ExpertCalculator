@@ -189,7 +189,6 @@ class Algorithm:
                 if i != len(tokens) - 1 and tokens[i + 1].isdigit():
                     raise ValueError("you used ) in wrong way")
 
-        print(tokens)
         return tokens
 
     def calculate_expression(self, expression: str) -> float:
@@ -226,6 +225,6 @@ class Algorithm:
         if len(stack) != 0:
             raise ValueError("not a valid input")
         else:
-            if float(result).is_integer():
+            if result % 1 == 0:
                 return int(result)
             return result
