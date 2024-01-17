@@ -55,7 +55,7 @@ class MathEvaluation:
         """
         if operand1 == 0 and operand2 <= 0:
             raise ArithmeticError("Math Error")
-        if operand1 < 0 and -1 < operand2 < 1:
+        if operand1 < 0 and (-1 < operand2 < 0 or 0 < operand2 < 1):
             raise ArithmeticError("Math Error")
         else:
             try:
@@ -115,16 +115,14 @@ class MathEvaluation:
         :return: the factorial of the operand
         :raises: ValueError if the operand is negative or not an integer
         """
-        if operand < 0:
+        if operand < 0 or operand % 1 != 0:
             raise ValueError("can not be factorized")
         if operand == 0:
             return 1
-        if float(operand).is_integer():
-            for i in range(int(operand) - 1, 0, -1):
-                operand *= i
-            return operand
-        else:
-            raise ValueError("can not be factorized")
+        num = 1
+        for i in range(1, int(operand + 1)):
+            num *= i
+        return num
 
     @staticmethod
     def neg(operand: float) -> float:
@@ -145,4 +143,6 @@ class MathEvaluation:
         """
         if operand < 0:
             raise ValueError("can not do this on negative number")
-        return sum(float(char) for char in str(operand) if char != '.')
+        if operand == float('inf'):
+            raise OverflowError("too big")
+        return sum(float(char) for char in str(operand) if char.isdigit())
