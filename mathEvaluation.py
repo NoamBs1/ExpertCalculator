@@ -55,7 +55,7 @@ class MathEvaluation:
         """
         if operand1 == 0 and operand2 <= 0:
             raise ArithmeticError("Math Error")
-        if operand1 < 0 and (-1 < operand2 < 0 or 0 < operand2 < 1):
+        if operand1 < 0 and operand2 % 1 != 0:
             raise ArithmeticError("Math Error")
         else:
             try:
