@@ -1,10 +1,9 @@
 from nis import *
 from Operator import Operator
 from mathEvaluation import MathEvaluation
-from input import getStr
 
 
-def ExpertCalculator():
+class ExpertCalculator:
     OPERATORS = {
         '+': Operator('+', 1, MathEvaluation.add),
         '-': Operator('-', 1, MathEvaluation.sub),
@@ -20,18 +19,21 @@ def ExpertCalculator():
         '#': Operator('#', 6, MathEvaluation.sumNum, False, POST)
     }
 
-    try:
-        algo = Algorithm(OPERATORS)
-        expression = getStr()
-        value = algo.calculate_expression(expression)
-    except (ValueError, EOFError, ArithmeticError, OverflowError) as err:
-        print(err)
-    else:
-        print(value)
+    def __init__(self):
+        self.algo = Algorithm(self.OPERATORS)
+
+    def calculate(self):
+        try:
+            value = self.algo.calculate_expression()
+            return value
+        except (ValueError, EOFError, ArithmeticError, OverflowError) as err:
+            return str(err)
 
 
 def main():
-    ExpertCalculator()
+    calculator = ExpertCalculator()
+    result = calculator.calculate()
+    print(result)
 
 
 if __name__ == '__main__':
