@@ -145,4 +145,12 @@ class MathEvaluation:
             raise ValueError("can not do this on negative number")
         if operand == float('inf'):
             raise OverflowError("too big")
-        return sum(float(char) for char in str(operand) if char.isdigit())
+        stringOp = str(operand)
+        if 'e' in stringOp:
+            i = summary = 0
+            while stringOp[i] != 'e':
+                if stringOp[i].isdigit():
+                    summary += float(stringOp[i])
+                i += 1
+            return summary
+        return sum(float(char) for char in stringOp if char.isdigit())
