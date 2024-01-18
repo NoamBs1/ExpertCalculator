@@ -192,8 +192,9 @@ class Algorithm:
             if token.startswith('-') and Algorithm.is_numeric(token[1:]):
                 tokens.insert(i, self.MINUS_UNARY)
                 tokens[i + 1] = tokens[i + 1].replace('-', '')
-            elif token == '-' and (
-                    tokens[i - 1] not in "0123456789)" and tokens[i - 1] not in self.POSTFIX_UNARYS or i == 0):
+            elif token == '-' and (i == 0 or
+                                   (not (Algorithm.is_numeric(tokens[i - 1]) or tokens[i - 1] == ')')) and (
+                                           tokens[i - 1] not in self.POSTFIX_UNARYS)):
                 tokens[i] = self.MINUS_UNARY
 
     def check_parentheses(self, tokens: list):
