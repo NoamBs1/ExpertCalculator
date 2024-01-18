@@ -19,7 +19,7 @@ class Algorithm:
         self.MINUS_UNARY = 'N'
         self.operators[self.MINUS_UNARY] = Operator('N', 7, MathEvaluation.neg, False, PRE)
         self.PRE_MINUS_UNARY = [op for op in self.operators if
-                                self.operators[op].getKdimut() > 2 and op not in self.PREFIX_UNARYS]
+                                self.operators[op].getKdimut() > 3 and op not in self.PREFIX_UNARYS]
 
     @staticmethod
     def is_numeric(token: str) -> bool:
@@ -153,6 +153,18 @@ class Algorithm:
         if current_token:
             tokens.append(current_token)
 
+        self.reduce_minuses(tokens, expression)
+        self.insert_unary_minus(tokens)
+        self.check_parentheses(tokens)
+
+        return tokens
+
+    def reduce_minuses(self, tokens: list, expression: str):
+        """
+        reduces unnecessary minuses
+        :param tokens: list of tokens of the expression
+        :param expression: the str expression
+        """
         i = 0
         while i < len(tokens):
             token = tokens[i]
@@ -170,6 +182,11 @@ class Algorithm:
                     tokens[i] = token.replace(rep, '-')
             i += 1
 
+    def insert_unary_minus(self, tokens: list):
+        """
+        put the unary minuses in the right places
+        :param tokens: list of tokens of the expression
+        """
         for i in range(len(tokens)):
             token = tokens[i]
             if token.startswith('-') and Algorithm.is_numeric(token[1:]):
@@ -179,6 +196,11 @@ class Algorithm:
                     tokens[i - 1] not in "0123456789)" and tokens[i - 1] not in self.POSTFIX_UNARYS or i == 0):
                 tokens[i] = self.MINUS_UNARY
 
+    def check_parentheses(self, tokens: list):
+        """
+        check if the parentheses is valid
+        :param tokens: list of tokens of the expression
+        """
         for i in range(len(tokens)):
             if tokens[i] == self.MINUS_UNARY and i + 1 < len(tokens) and tokens[i + 1] in self.PREFIX_UNARYS:
                 raise ValueError("the unary minus not used correctly")
@@ -189,16 +211,18 @@ class Algorithm:
                 if i != len(tokens) - 1 and tokens[i + 1].isdigit():
                     raise ValueError("you used ) in wrong way")
 
-        return tokens
-
-    def calculate_expression(self, expression: str) -> float:
+    def calculate_expression(self) -> float:
         """
         the main algorithm that calculates the expression
-        :param expression: a str that represents the expression required for the calculation
         :return: the arithmetic result of the expression
-        :raises: ValueError if the expression was not valid
+        :raises: ValueError if the expression was not valid or EOFError if EOF was inserted
         """
         stack = []
+        try:
+            expression = input("enter an algebraic expression: ")
+            expression = expression.replace(' ', '').replace('\t', '')
+        except EOFError:
+            raise EOFError("goodbye!")
         postfix_expression = self.infix_to_postfix(self.tokenize_expression(expression))
         Algorithm.convert_to_numbers(postfix_expression)
 
