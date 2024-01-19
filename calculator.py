@@ -20,9 +20,16 @@ class ExpertCalculator:
     }
 
     def __init__(self):
+        """
+        initialized the calculator algorithm with the asked OPERATORS
+        """
         self.algo = Algorithm(self.OPERATORS)
 
     def calculate(self):
+        """
+        calculate the input expression
+        :return: the result of thr calculation
+        """
         try:
             value = self.algo.calculate_expression()
             return value
@@ -31,6 +38,9 @@ class ExpertCalculator:
 
 
 def main():
+    """
+    the main app of the calculator, prints the result to the console
+    """
     calculator = ExpertCalculator()
     result = calculator.calculate()
     print(result)
