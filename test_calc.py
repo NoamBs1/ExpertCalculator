@@ -51,6 +51,13 @@ from calculator import ExpertCalculator
     ("~7.3 --9.2$(8.1&1.4)@5.9 + 3.8", -7.1499999999999995)
 ])
 def test_calculate(expression, expected_result, monkeypatch):
+    """
+    tests the calculator for a variety of situations
+    :param expression: the expression that the calculator gets
+    :param expected_result: what i suppose to get
+    :param monkeypatch: feature that simulate the input
+    :return: if the calculator returned what i expected
+    """
     calculator = ExpertCalculator()
     monkeypatch.setattr('builtins.input', lambda _: expression)
     assert calculator.calculate() == expected_result
