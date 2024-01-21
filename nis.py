@@ -209,7 +209,7 @@ class Algorithm:
                 if i != 0 and (tokens[i - 1].isdigit() or tokens[i - 1] == ')'):
                     raise ValueError("you used ( in wrong way")
             if tokens[i] == ')':
-                if i != len(tokens) - 1 and (tokens[i + 1].isdigit() or tokens[i + 1] != '('):
+                if i != len(tokens) - 1 and (tokens[i + 1].isdigit()):
                     raise ValueError("you used ) in wrong way")
 
     def calculate_expression(self) -> float:
