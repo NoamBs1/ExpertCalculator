@@ -206,10 +206,10 @@ class Algorithm:
             if tokens[i] == self.MINUS_UNARY and i + 1 < len(tokens) and tokens[i + 1] in self.PREFIX_UNARYS:
                 raise ValueError("the unary minus not used correctly")
             if tokens[i] == '(':
-                if i != 0 and tokens[i - 1].isdigit():
+                if i != 0 and (tokens[i - 1].isdigit() or tokens[i - 1] == ')'):
                     raise ValueError("you used ( in wrong way")
             if tokens[i] == ')':
-                if i != len(tokens) - 1 and tokens[i + 1].isdigit():
+                if i != len(tokens) - 1 and (tokens[i + 1].isdigit() or tokens[i + 1] != '('):
                     raise ValueError("you used ) in wrong way")
 
     def calculate_expression(self) -> float:
