@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Operator:
     def __init__(self, char: str, kdimut: int, func, isBinary=True, pos=0):
         """
@@ -27,3 +28,4 @@ class Operator:
         :return: the position of the operator relative to the location of the operand
         """
         return self.pos
+
