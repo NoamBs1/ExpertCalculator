@@ -2,7 +2,7 @@ class Operator:
     def __init__(self, char: str, kdimut: int, func, isBinary=True, pos=0):
         """
         Initialize a new Operator
-        :param char: str char of the operator
+        :param char: str char - the operator
         :param kdimut: int priority in order of operations
         :param func: the function that it operates
         :param isBinary: boolean if the operator is binary
