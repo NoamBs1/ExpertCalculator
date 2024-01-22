@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class Operator:
     def __init__(self, char: str, kdimut: int, func, isBinary=True, pos=0):
         """
