@@ -116,11 +116,13 @@ class MathEvaluation:
         :raises: ValueError if the operand is negative or not an integer
         """
         if operand < 0 or operand % 1 != 0:
-            raise ValueError("can not be factorized")
+            raise ValueError("can not be factorized or too big")
         if operand == 0:
             return 1
-        num = 1
+        num = 1.0
         for i in range(1, int(operand + 1)):
+            if num == float('inf'):
+                return float('inf')
             num *= i
         return num
 
